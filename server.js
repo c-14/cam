@@ -5,6 +5,7 @@ var assets = require('./assets'),
     escape = require('escape-html'),
     events = require('events'),
     urlParse = require('url').parse,
+    modRewrite = require('connect-modrewrite'),
     util = require('util');
 
 function redisClient() {
@@ -14,8 +15,10 @@ function redisClient() {
 var SHARED_REDIS = redisClient();
 game.setRedis(SHARED_REDIS);
 
-function startServer() {                                                       
+function startServer() {
     var app = require('connect')();
+    if (config.URL_PREFIX)
+        app.use(modRewrite(['^/' + config.URL_PREFIX + '$ / [L]', '^/' + config.URL_PREFIX + '/client-.*$ - [L]', '^/' + config.URL_PREFIX + '/(.*)$ /$1']));
     app.use(serveScripts);
     app.use(serveSuggestions);
     app.use(require('serve-static')(__dirname + '/www', {maxAge: 2592000000}));

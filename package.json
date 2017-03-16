@@ -12,6 +12,7 @@
 	"dependencies": {
 		"async": "2.1.4",
 		"connect": "3.5.0",
+		"connect-modrewrite": "^0.10.1",
 		"escape-html": "1.0.3",
 		"redis": "2.6.5",
 		"serve-static": "1.11.1",
